@@ -1,62 +1,84 @@
-﻿@model CelexWebApp.Models.RegistroMV.RegistroViewModel
+@model CelexWebApp.Models.RegistroMV.RegistroViewModel
 
 @{
     ViewData["Title"] = "Registro";
 }
 
-<h1>@ViewData["Title"]</h1>
+<!-- Enlace al archivo CSS en wwwroot -->
+<link rel="stylesheet" href="~/css/registro.css" />
 
-<h2>Bienvenido usuario nuevo, realiza un registro para poder acceder a las funciones completas que tenemos disponibles para ti</h2>
+<canvas id="particleCanvas" style="position: fixed; top: 0; left: 0; z-index: -2;"></canvas>
+<canvas id="geometricCanvas" style="position: fixed; top: 0; left: 0; z-index: -1;"></canvas>
 
-<form method="post" asp-action="Registro" asp-controller="Registro">
-    <div class="form-group">
-        <label for="rol">Seleccione su rol:</label>
-        <select asp-for="RolSeleccionado" class="form-control" id="RolSeleccionado"
-                asp-items="Model.Roles">
-            <option value="">Seleccione...</option>
-        </select>
-        <span asp-validation-for="RolSeleccionado" class="text-danger"></span>
+<div class="registration-wrapper">
+    <div class="header-animation">
+        <h1 class="title">@ViewData["Title"]</h1>
     </div>
+    <div class="welcome-box">
+        <p class="subtitle">Bienvenido usuario nuevo, realiza un registro para poder acceder a las funciones completas que tenemos disponibles para ti</p>
+    </div>
+    <div class="registration-container">
+        <div class="section registration-form">
+            <h2 class="section-title">Crea tu cuenta</h2>
+            <form method="post" asp-action="Registro" asp-controller="Registro">
+                <div class="form-group">
+                    <label for="rol">Seleccione su rol:</label>
+                    <select asp-for="RolSeleccionado" class="form-control custom-select" id="RolSeleccionado"
+                            asp-items="Model.Roles">
+                        <option value="">Seleccione...</option>
+                    </select>
+                    <span asp-validation-for="RolSeleccionado" class="text-danger"></span>
+                </div>
 
-    <div class="role-form" data-role="Alumno" style="display:none;">
-        <h3>Registro de Alumno</h3>
-        <div class="form-group">
-            <label asp-for="Alumno.Nombre" class="control-label"></label>
-            <input asp-for="Alumno.Nombre" class="form-control" />
-            <span asp-validation-for="Alumno.Nombre" class="text-danger"></span>
+                <div class="role-form" data-role="Alumno" style="display:none;">
+                    <h3 class="sub-section-title">Datos del Alumno</h3>
+                    <div class="form-group">
+                        <label asp-for="Alumno.Nombre">Nombre:</label>
+                        <input asp-for="Alumno.Nombre" class="form-control" />
+                        <span asp-validation-for="Alumno.Nombre" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Alumno.ApellidoPaterno">Apellido Paterno:</label>
+                        <input asp-for="Alumno.ApellidoPaterno" class="form-control" />
+                        <span asp-validation-for="Alumno.ApellidoPaterno" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Alumno.ApellidoMaterno">Apellido Materno:</label>
+                        <input asp-for="Alumno.ApellidoMaterno" class="form-control" />
+                        <span asp-validation-for="Alumno.ApellidoMaterno" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Alumno.Telefono">Teléfono:</label>
+                        <input asp-for="Alumno.Telefono" class="form-control" />
+                        <span asp-validation-for="Alumno.Telefono" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Alumno.Matricula">Matrícula:</label>
+                        <input asp-for="Alumno.Matricula" class="form-control" />
+                        <span asp-validation-for="Alumno.Matricula" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group button-group">
+                    <button type="submit" class="btn btn-primary">Registrarse</button>
+                </div>
+            </form>
         </div>
-        <div class="form-group">
-            <label asp-for="Alumno.ApellidoPaterno" class="control-label"></label>
-            <input asp-for="Alumno.ApellidoPaterno" class="form-control" />
-            <span asp-validation-for="Alumno.ApellidoPaterno" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Alumno.ApellidoMaterno" class="control-label"></label>
-            <input asp-for="Alumno.ApellidoMaterno" class="form-control" />
-            <span asp-validation-for="Alumno.ApellidoMaterno" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Alumno.Telefono" class="control-label"></label>
-            <input asp-for="Alumno.Telefono" class="form-control" />
-            <span asp-validation-for="Alumno.Telefono" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Alumno.Matricula" class="control-label"></label>
-            <input asp-for="Alumno.Matricula" class="form-control" />
-            <span asp-validation-for="Alumno.Matricula" class="text-danger"></span>
+
+        <div class="section id-section">
+            <h2 class="section-title">Verificación Profesional</h2>
+            <p class="id-message">¿Eres docente o parte de nuestro equipo? Envíanos tu ID para validar tu cuenta.</p>
+            <form asp-controller="Registro" asp-action="EnviarID" method="post">
+                <div class="form-group button-group">
+                    <button id="BtnAzureLabel" type="submit" class="btn btn-primary">Enviar ID</button>
+                </div>
+            </form>
+            <div class="form-group">
+                <label id="idAzureLabel" class="id-label">Número de Cuenta: @ViewData["id_azure"]</label>
+            </div>
         </div>
     </div>
-
-    <div class="form-group">
-        <input type="submit" value="Registro" class="btn btn-primary" />
-    </div>
-</form>
-
-<label id="idAzureLabel">Numero de Cuenta: @ViewData["id_azure"] </label>
-<br />
-<form asp-controller="Registro" asp-action="EnviarID" method="post">
-    <button id="BtnAzureLabel" type="submit" class="btn btn-primary">Enviar ID</button>
-</form>
+</div>
 
 @section Scripts {
     @{
@@ -77,32 +99,3 @@
         });
     </script>
 }
-
-<style>
-    #idAzureLabel {
-        position: fixed;
-        bottom: 100px;
-        right: 200px;
-        background-color: rgba(0, 0, 0, 0.7);
-        color: white;
-        padding: 5px 10px;
-        border-radius: 5px;
-        font-size: 0.9em;
-    }
-
-    #BtnAzureLabel {
-        position: fixed;
-        bottom: 100px;
-        right: 10px;
-        background-color: black;
-        color: white;
-        padding: 5px 10px;
-        border-radius: 5px;
-        font-size: 0.9em;
-        transition: transform 0.3s ease;
-    }
-
-        #BtnAzureLabel:hover {
-            transform: scale(1.2);
-        }
-</style>
