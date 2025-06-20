@@ -1,5 +1,4 @@
 # CelexWebApp  
-
 ?? **Plataforma de gestión administrativa para CELEX (CECyT 13 - IPN)**  
 *Optimizando procesos académicos y administrativos para alumnos, profesores y administradores.*  
 
