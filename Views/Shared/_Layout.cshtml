@@ -8,13 +8,14 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/CelexWebApp.styles.css" asp-append-version="true" />
 </head>
+
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MyCelex</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                aria-expanded="false" aria-label="Toggle navigation">
+                        aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
@@ -30,18 +31,18 @@
                         }
                         @if (idRol == "3")
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Grupos" asp-action="Index">Ver Grupos</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="RegistroGrupos" asp-action="Index">Ver Registros de Grupos</a>
-                            </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Grupos" asp-action="Index">Ver Grupos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="RegistroGrupos" asp-action="Index">Ver Registros de Grupos</a>
+                        </li>
                         }
                         @if (idRol == "2")
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Libros" asp-action="Index">Ver Libros</a>
-                            </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Libros" asp-action="Index">Ver Libros</a>
+                        </li>
                         }
                     </ul>
                     <partial name="_LoginPartial" />
@@ -64,5 +65,37 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+
+    <!-- Modal Glassmorphism -->
+    <div id="customAlertOverlay" style="display:none;">
+        <div id="customAlertModal">
+            <div id="customAlertMessage"></div>
+            <button id="customAlertButton">Aceptar</button>
+        </div>
+    </div>
+
+    <script>
+        window.customAlert = function (message, buttonText = "Aceptar") {
+            return new Promise(resolve => {
+                const overlay = document.getElementById('customAlertOverlay');
+                const modal = document.getElementById('customAlertModal');
+                const msg = document.getElementById('customAlertMessage');
+                const btn = document.getElementById('customAlertButton');
+                msg.textContent = message;
+                btn.textContent = buttonText;
+                overlay.style.display = 'flex';
+                btn.focus();
+                btn.onclick = () => {
+                    overlay.style.display = 'none';
+                    resolve();
+                };
+            });
+        };
+
+      
+        window.alert = window.customAlert;
+    </script>
 </body>
+
+
 </html>
